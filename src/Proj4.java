@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Proj4 {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         System.out.print("How many values: ");
         int v = new Scanner(System.in).nextInt();
@@ -11,20 +11,21 @@ public class Proj4 {
         int[] list = new int[v];
 
 
-        for(int k = 0; k < v; k++){
+        for (int k = 0; k < v; k++) {
             System.out.println("Enter a number: ");
             list[k] = l.nextInt();
         }
 
         Object[][][] grid = new Object[v][v][2];
-        gridBuilder(list, grid, v);
+        grid = gridBuilder1(list, grid, v);
+
+        int m = v-1;
+        grid = gridBuilder2(m, grid, v);
 
 
-        for (Object[][] x : grid)
-        {
-            for (Object[] y : x)
-            {
-                for(Object z : y){
+        for (Object[][] x : grid) {
+            for (Object[] y : x) {
+                for (Object z : y) {
                     System.out.print(z + " ");
                 }
 
@@ -33,7 +34,7 @@ public class Proj4 {
         }
 
 
-        for(int a = 0; a < v; a++)
+        for (int a = 0; a < v; a++)
             System.out.print(list[a]);
 
         System.out.println("");
@@ -42,40 +43,55 @@ public class Proj4 {
 
     }
 
-    public static void gridBuilder(int[] list, Object[][][] grid, int v){
+    public static Object[][][] gridBuilder1(int[] list, Object[][][] grid, int v) {
 
-        for(int i = 0; i < v; i++){
-            for(int j = 0; j < v; j++){
+        for (int i = 0; i < v; i++) {
+            for (int j = 0; j < v; j++) {
 
-                if(i == j){
+                if (i == j) {
                     grid[i][j][0] = list[i];
                     grid[i][j][1] = 'F';
                 }
 
-                if(j < i){
+                if (j < i) {
                     grid[i][j][0] = '-';
                     grid[i][j][1] = '-';
                 }
             }
-        }
 
-        for(int m = 0; m < v-1; m++) {
-            for (int n = 0; n < v-1; n++) {
-                if ((int) grid[m][n][0] > (int) grid[m + 1][n + 1][0]) {
-                    grid[m][n + 1][0] = grid[m][n][0];
-                    grid[m][n + 1][1] = 'F';
-                } else if ((int) grid[m][n][0] < (int) grid[m + 1][n + 1][0]) {
-                    grid[m][n + 1][0] = grid[m + 1][n + 1][0];
-                    grid[m][n + 1][0] = 'L';
-                }
-
-            }
         }
+        return grid;
     }
 
+    public static Object[][][] gridBuilder2(int m, Object[][][] grid, int v) {
+
+        try {
+                for (int n = v - 1; n >= 0; n--) {
+                    if ((int) grid[m - 1][n - 1][0] > (int) grid[m][n][0]) {
+                        grid[m - 1][n][0] = grid[m - 1][n - 1][0];
+                        grid[m - 1][n][1] = 'F';
+                    } else if ((int) grid[m - 1][n - 1][0] < (int) grid[m][n][0]) {
+                        grid[m - 1][n][0] = grid[m][n][0];
+                        grid[m - 1][n][0] = 'L';
+                    }
+
+                }
 
 
+        } catch (ClassCastException cce) {
 
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
 
+        }catch (NullPointerException npe) {
+
+        }
+        
+        m--;
+        if(m >= 0){
+            grid = gridBuilder2(m, grid, v);
+        }
+
+        return grid;
+    }
 
 }
