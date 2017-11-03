@@ -19,8 +19,7 @@ public class Proj4 {
         Object[][][] grid = new Object[v][v][2];
         grid = gridBuilder1(list, grid, v);
 
-        int m = v-1;
-        grid = gridBuilder2(m, grid, v);
+        grid = gridBuilder2(list, grid, v);
 
 
         for (Object[][] x : grid) {
@@ -52,45 +51,47 @@ public class Proj4 {
                     grid[i][j][0] = list[i];
                     grid[i][j][1] = 'F';
                 }
-
-                if (j < i) {
+                else if (j < i) {
                     grid[i][j][0] = '-';
                     grid[i][j][1] = '-';
                 }
+                else if(j > i){
+                    grid[i][j][0] = 0;
+                    grid[i][j][1] = '-';
+                }
             }
-
         }
         return grid;
     }
 
-    public static Object[][][] gridBuilder2(int m, Object[][][] grid, int v) {
+    public static Object[][][] gridBuilder2(int[] list, Object[][][] grid, int v) {
 
-        try {
-                for (int n = v - 1; n >= 0; n--) {
-                    if ((int) grid[m - 1][n - 1][0] > (int) grid[m][n][0]) {
-                        grid[m - 1][n][0] = grid[m - 1][n - 1][0];
-                        grid[m - 1][n][1] = 'F';
-                    } else if ((int) grid[m - 1][n - 1][0] < (int) grid[m][n][0]) {
-                        grid[m - 1][n][0] = grid[m][n][0];
-                        grid[m - 1][n][0] = 'L';
+        for(int k = 1; k < v; k++) {
+            for (int i = 0; i < v; i++) {
+                for (int j = 0; j < v; j++) {
+                    if(i + 1 == j){
+                        if ((int) grid[i][j - 1][0] >= (int) grid[i + 1][j][0]) {
+                            grid[i][j][0] = list[j-1];
+                            grid[i][j][1] = 'F';
+                        } else if ((int) grid[i][j - 1][0] < (int) grid[i + 1][j][0]) {
+                            grid[i][j][0] = list[i+1];
+                            grid[i][j][1] = 'L';
+                        }
+                    }
+
+                    else if (i + k == j) {
+                        if ((int) grid[i][j - 1][0] >= (int) grid[i + 1][j][0]) {
+                            grid[i][j][0] = (int) grid[i][j - 1][0] + list[j-1];
+                            grid[i][j][1] = 'F';
+                        } else if ((int) grid[i][j - 1][0] < (int) grid[i + 1][j][0]) {
+                            grid[i][j][0] = (int) grid[i + 1][j][0] + list[j-1];
+                            grid[i][j][1] = 'L';
+                        }
                     }
 
                 }
-
-
-        } catch (ClassCastException cce) {
-
-        } catch (ArrayIndexOutOfBoundsException aioobe) {
-
-        }catch (NullPointerException npe) {
-
+            }
         }
-        
-        m--;
-        if(m >= 0){
-            grid = gridBuilder2(m, grid, v);
-        }
-
         return grid;
     }
 
