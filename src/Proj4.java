@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Proj4 {
@@ -36,9 +37,6 @@ public class Proj4 {
         for (int a = 0; a < v; a++)
             System.out.print(list[a]);
 
-        System.out.println("");
-        System.out.print("Choose first or last (F or L): ");
-        String c = new Scanner(System.in).next();
 
     }
 
@@ -93,6 +91,18 @@ public class Proj4 {
             }
         }
         return grid;
+    }
+
+    public static Object listSplitter(int[] list){
+        ArrayList down = new ArrayList();
+
+        
+        ArrayList across = new ArrayList();
+
+
+
+
+        return ;
     }
 
 }
