@@ -1,5 +1,6 @@
-import java.util.ArrayList;
 import java.util.Scanner;
+
+import static java.lang.Math.abs;
 
 public class Proj4 {
 
@@ -93,11 +94,17 @@ public class Proj4 {
         return grid;
     }
 
-    public static Object listSplitter(int[] list){
-        ArrayList down = new ArrayList();
-
-        
-        ArrayList across = new ArrayList();
+    public static Object listSplitter(int[] list, int v){
+        int n = 0;
+        int o = 0;
+        int p = 0;
+        for(int m = 0; m < v; m++){
+            if(abs(list[m] - list[m+1]) > 0) {
+                n = abs(list[m] - list[m + 1]);
+                o = m;
+                p = m+1;
+            }
+        }
 
 
 
